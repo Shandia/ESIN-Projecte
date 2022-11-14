@@ -2,8 +2,6 @@
 #define _RACIONAL_HPP
 #include <esin/error>
 #include <esin/util>
-// externa
-#include <cmath>
 
 using std::string;
 
