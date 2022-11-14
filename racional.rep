@@ -1,0 +1,5 @@
+int _p; //numerator
+int _q; //denominator
+
+int gcd(int p, int q);
+void reduce();
