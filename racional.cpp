@@ -11,8 +11,8 @@ explicit racional::racional(int n = 0, int d = 1) throw(error)
         throw(DenominadorZero);
     else
     {
-        this->numerator = n < 0 ? -n : n;
-        this->denominator = d < 0 ? -d : d;
+        this->_p = n < 0 ? -n : n;
+        this->_q = d < 0 ? -d : d;
         reduce();
     }
 }
@@ -40,7 +40,7 @@ racional &racional::operator=(const racional &r) throw(error)
      * Pre:
      * Post:
      */
-    if (_q == 0)
+    if (this->_q == 0)
         throw(DenominadorZero);
     reduce();
     return *this;
@@ -154,7 +154,7 @@ bool racional::operator==(const racional &r) const throw()
      * Pre:
      * Post:
      */
-    return _p == r._p && _q == r._q;
+    return this->_p == r._p && this->_q == r._q;
 }
 
 bool racional::operator!=(const racional &r) const throw()
@@ -246,10 +246,9 @@ void racional::reduce()
         this->_q *= -1;
     }
 
-    int denom = gcd(_p, _q);
-    _p /= denom;
-    _q /= denom;
-    * /
+    int denom = gcd(this->_p, this->_q);
+    this->_p /= denom;
+    this->_q /= denom;
 }
 
 // Gestió d'errors.
