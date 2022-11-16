@@ -99,8 +99,12 @@ racional racional::operator+(const racional &r) const throw(error)
     /* Cost:
      * Pre:
      * Post:
+     * (apliquem el metode papallona)
      */
-    return racional{*this} += r;
+    _p = (_p*r._q) + (_q*r_p);
+    _q = _q*r._q;
+    reduce();
+    return *this;
 }
 
 racional racional::operator-(const racional &r) const throw(error)
@@ -108,13 +112,12 @@ racional racional::operator-(const racional &r) const throw(error)
     /* Cost:
      * Pre:
      * Post:
+     * (apliquem el metode papallona)
      */
-    racional result(*this);
-
-    result -= r;
-    result.reduce();
-
-    return result;
+    _p = (_p*r._q) - (_q*r._p);
+    _q = _q * r._q;
+    reduce();
+    return *this;
 }
 
 racional racional::operator*(const racional &r) const throw(error)
@@ -123,12 +126,10 @@ racional racional::operator*(const racional &r) const throw(error)
      * Pre:
      * Post:
      */
-    racional result(*this);
-
-    result *= r;
-    result.reduce();
-
-    return result;
+    _p *= r._p;
+    _q *= r._q;
+    reduce();
+    return *this;
 }
 
 racional racional::operator/(const racional &r) const throw(error)
@@ -137,11 +138,10 @@ racional racional::operator/(const racional &r) const throw(error)
      * Pre:
      * Post:
      */
-    racional result(*this);
-    result /= r;
-    result.reduce();
-
-    return result;
+    _p *= r._q;
+    _q *= r._p;
+    reduce();
+    return *this; 
 }
 
 /* Sobrecàrrega de operadors de comparació. Retornen cert, si i només si
