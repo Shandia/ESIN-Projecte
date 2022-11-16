@@ -14,7 +14,7 @@ explicit racional::racional(int n = 0, int d = 1) throw(error)
         this->_p = n < 0 ? -n : n;
         this->_q = d < 0 ? -d : d;
         reduce();
-    
+    }
 }
 
 // Constructora per còpia
