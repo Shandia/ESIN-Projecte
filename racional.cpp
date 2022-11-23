@@ -1,94 +1,73 @@
 #include "racional.hpp"
 
-// Constructora. Construeix un racional en la seva versió simplificada.
-// Es produeix un error si el denominador és 0.
 explicit racional::racional(int n = 0, int d = 1) throw(error)
 {
     /* Cost: */
-    /* Pre: */
-    /* Post: */
     if (d == 0)
         throw(DenominadorZero);
     else
     {
-        this->_p = n < 0 ? -n : n;
-        this->_q = d < 0 ? -d : d;
+        _p = d < 0 ? -n: n;
+        _q = d < 0 ? -d : d;
         reduce();
     }
 }
 
-// Constructora per còpia
 racional::racional(const racional &r) throw(error)
     : _p{r._p},
       _q{r._q},
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
-    if (this->_q == 0)
+    /* Cost: */
+    if (_q == 0)
         throw(DenominadorZero);
     reduce();
 }
 
-// Constructora per assignació
 racional &racional::operator=(const racional &r) throw(error)
-    : _p{r._p},
-         _q{r._q}
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
-    if (this->_q == 0)
-        throw(DenominadorZero);
-    reduce();
-    return *this;
+    /* Cost: */
+    racional aux(r);
+    return aux;
 }
 
-// Destructor
-racional::~racional() throw()
-{
-    /* No es fa res ja que no utilizem memòria dinàmica */
-}
+racional::~racional() throw() {}
 
 // Consultores. La part_entera d'un racional pot ser
 // positiva o negativa. El residu SEMPRE és un racional positiu.
 int racional::num() const throw()
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
-    return this->_p;
+    /* Cost: */
+    return _p;
 }
 
 int racional::denom() const throw()
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
-    return this->_q;
+    /* Cost: */
+    return _q;
 }
 
 int racional::part_entera() const throw()
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
-    return (this->_p / this->_q);
+    /* Cost: */
+    // Si la part entera és negativa, se li ha de restar 1 unitat per tenir sempre el residu positiu
+    return _p < 0 ? ((_p/_q)-1) : (_p/_q);
 }
 
 racional racional::residu() const throw()
 {
-    /* Cost:
-     * Pre:
-     * Post:
-     */
+    /* Cost: */
     // 0,5 -> 1/2, hem de retornar en forma racional
     // return num%den;
+    int aux = part_entera();
+    aux *= _q;
+    if (aux < 0) {
+        aux += 2;
+        aux *= -1;
+        aux = -1*_p - aux;
+    }
+    else aux = _p - aux;
+
+    return (aux, _q);
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
