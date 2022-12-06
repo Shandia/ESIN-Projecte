@@ -84,6 +84,7 @@ racional racional::operator+(const racional &r) const throw(error)
     // (apliquem el metode papallona)
     _p = (_p*r._q) + (_q*r_p);
     _q = _q*r._q;
+    if (r._q == 0) throw (DenominadorZero);
     reduce();
     return *this;
 }
@@ -97,6 +98,7 @@ racional racional::operator-(const racional &r) const throw(error)
     // (apliquem el metode papallona)
     _p = (_p*r._q) - (_q*r._p);
     _q = _q * r._q;
+    if (r._q == 0) throw (DenominadorZero);
     reduce();
     return *this;
 }
@@ -109,6 +111,7 @@ racional racional::operator*(const racional &r) const throw(error)
 {
     _p *= r._p;
     _q *= r._q;
+    if (r._q == 0) throw (DenominadorZero);
     reduce();
     return *this;
 }
@@ -121,6 +124,7 @@ racional racional::operator/(const racional &r) const throw(error)
 {
     _p *= r._q;
     _q *= r._p;
+    if (r._q == 0) throw (DenominadorZero);
     reduce();
     return *this; 
 }
