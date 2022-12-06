@@ -38,8 +38,6 @@ racional &racional::operator=(const racional &r) throw(error)
 
 racional::~racional() throw() {}
 
-// Consultores. La part_entera d'un racional pot ser
-// positiva o negativa. El residu SEMPRE és un racional positiu.
 // Cost: Operacions amb costos constant: O(1)
 int racional::num() const throw()
 {
@@ -77,9 +75,6 @@ racional racional::residu() const throw()
     return (aux, _q);
 }
 
-/* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
-   versió simplificada amb el resultat de l'operació. Es produeix un
-   error al dividir dos racionals si el segon és 0.*/
 /* 
     Cost: Operacions amb costos constants més el cost de la funció reduce
     Per tant, O(1) + O(n*log n) = O(n*log n)
@@ -130,10 +125,6 @@ racional racional::operator/(const racional &r) const throw(error)
     return *this; 
 }
 
-/* Sobrecàrrega de operadors de comparació. Retornen cert, si i només si
-   el racional sobre el que s'aplica el mètode és igual (==), diferent
-   (!=), menor (<), menor o igual (<=), major (>) o major o igual(>=)
-   que el racional r.*/
 // Cost: Operacions amb costos constant: O(1)
 bool racional::operator==(const racional &r) const throw()
 {
