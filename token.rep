@@ -5,3 +5,5 @@ union TOKEN {
     char tkn_c;         // Variables predefinides, operadors
     string tkn_s;       // Variables, funcions predefinides, comandes
 } tkn;
+
+codi c_actual;
