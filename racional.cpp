@@ -29,7 +29,7 @@ racional::racional(const racional &r) throw(error)
     reduce();
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 racional &racional::operator=(const racional &r) throw(error)
 {
     racional aux(r);
@@ -38,19 +38,19 @@ racional &racional::operator=(const racional &r) throw(error)
 
 racional::~racional() throw() {}
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 int racional::num() const throw()
 {
     return _p;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 int racional::denom() const throw()
 {
     return _q;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 int racional::part_entera() const throw()
 {
     // Si la part entera és negativa, se li ha de restar 1 unitat per tenir sempre el residu positiu
@@ -129,19 +129,19 @@ racional racional::operator/(const racional &r) const throw(error)
     return *this; 
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator==(const racional &r) const throw()
 {
     return this->_p == r._p && this->_q == r._q;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator!=(const racional &r) const throw()
 {
     return !(*this == r);
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator<(const racional &r) const throw()
 {
     bool result;
@@ -153,7 +153,7 @@ bool racional::operator<(const racional &r) const throw()
     return result;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator<=(const racional &r) const throw()
 {
     if (!(this > r))
@@ -164,7 +164,7 @@ bool racional::operator<=(const racional &r) const throw()
     return result;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator>(const racional &r) const throw()
 {
     bool result;
@@ -176,7 +176,7 @@ bool racional::operator>(const racional &r) const throw()
     return result;
 }
 
-// Cost: Operacions amb costos constant: O(1)
+// Cost: Operacions amb costos constants: O(1)
 bool racional::operator>=(const racional &r) const throw()
 {
     bool result;
@@ -218,6 +218,3 @@ void racional::reduce()
     this->_p /= denom;
     this->_q /= denom;
 }
-
-// Gestió d'errors.
-static const int DenominadorZero = 21;
