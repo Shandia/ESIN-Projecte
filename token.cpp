@@ -1,7 +1,10 @@
 #include "token.hpp"
 
-explicit token::token(codi cod = NULLTOK) throw(error) {
-    
+// Cost: Operacions amb costos constants: O(1)
+explicit token::token(codi cod) throw(error) {
+    if (cod == 1 or cod == 2 or cod == 3 or cod == 5)
+        throw (ConstructoraInadequada);
+    c_actual = cod;
 }
 
 explicit token::token(int n) throw(error) {
@@ -119,10 +122,20 @@ bool token::operator!=(const token & t) const throw() {
     return !(*this == t);
 }
 
+// Cost: Operacions amb costos constants: O(1)
 bool token::operator>(const token & t) const throw(error) {
-
+    if (t.c_actual < 7 or t.c_actual > 13) 
+        throw (PrecedenciaEntreNoOperadors);
+    if (c_actual < 7 or t.c_actual > 13)
+        throw (PrecedenciaEntreNoOperadors);
+    return (c_actual > t.c_actual);
 }
 
+// Cost: Operacions amb costos constants: O(1)
 bool token::operator<(const token & t) const throw(error) {
-
+    if (t.c_actual < 7 or t.c_actual > 13) 
+        throw (PrecedenciaEntreNoOperadors);
+    if (c_actual < 7 or t.c_actual > 13)
+        throw (PrecedenciaEntreNoOperadors);
+    return (c_actual < t.c_actual);
 }
