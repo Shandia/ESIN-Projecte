@@ -2,8 +2,7 @@ union TOKEN {
     int tkn_i;          // Operand enter
     racional tkn_r;     // Operand racional
     double tkn_d;        // Operand real
-    char tkn_c;         // Variables predefinides, operadors
-    string tkn_s;       // Variables, funcions predefinides, comandes
+    string tkn_s;       // Variables
 } tkn;
 
 codi c_actual;

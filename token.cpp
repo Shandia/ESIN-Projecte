@@ -2,7 +2,7 @@
 
 // Cost: Operacions amb costos constants: O(1)
 explicit token::token(codi cod) throw(error) {
-    if (cod == 1 or cod == 2 or cod == 3 or cod == 5)
+    if (cod == CT_ENTERA or cod == CT_RACIONAL or cod == CT_REAL or cod == VARIABLE)
         throw (ConstructoraInadequada);
     c_actual = cod;
 }
@@ -50,7 +50,8 @@ explicit token::token(const string & var_name) throw(error) {
 token::token(const token & t) throw(error) {
     // tractament error
     c_actual = t.c_actual;
-    tkn = t.tkn;
+    if ((c_actual >= CT_ENTERA and c_actual <= CT_REAL) or c_actual == VARIABLE)
+        tkn = t.tkn;
 }
 
 token &token::operator=(const token & t) throw(error) {
@@ -68,7 +69,7 @@ codi token::tipus() const throw() {
 
 // Cost: Operacions amb costos constants: O(1)
 int token::valor_enter() const throw(error) {
-    if (c_actual == 1) {
+    if (c_actual == CT_ENTERA) {
         return tkn.tkn_i;
     }
     else throw(ConsultoraInadequada);
@@ -76,7 +77,7 @@ int token::valor_enter() const throw(error) {
 
 // Cost: Operacions amb costos constants: O(1)
 racional token::valor_racional() const throw(error) {
-    if (c_actual == 2) {
+    if (c_actual == CT_RACIONAL) {
         return tkn.tkn_r;
     }
     else throw(ConsultoraInadequada);
@@ -84,7 +85,7 @@ racional token::valor_racional() const throw(error) {
 
 // Cost: Operacions amb costos constants: O(1)
 double token::valor_real() const throw(error) {
-    if (c_actual == 3) {
+    if (c_actual == CT_REAL) {
         return tkn.tkn_d;
     }
     else throw(ConsultoraInadequada);
@@ -92,7 +93,7 @@ double token::valor_real() const throw(error) {
 
 // Cost: Operacions amb costos constants: O(1)
 string token::identificador_variable() const throw(error) {
-    if (c_actual == 5) {
+    if (c_actual == VARIABLE) {
         return tkn.tkn_s;
     }
     else throw(ConsultoraInadequada);
@@ -103,16 +104,16 @@ bool token::operator==(const token & t) const throw() {
     if (c_actual != t.c_actual) return false;
 
     // CT_ENTERA
-    if (c_actual == 1) return tkn.tkn_i == t.tkn.tkn_i;
+    if (c_actual == CT_ENTERA) return tkn.tkn_i == t.tkn.tkn_i;
 
     // CT_RACIONAL
-    if (c_actual == 2) return tkn.tkn_r == t.tkn.tkn_r;
+    if (c_actual == CT_RACIONAL) return tkn.tkn_r == t.tkn.tkn_r;
 
     // CT_REAL
-    if (c_actual == 3) return tkn.tkn_d == t.tkn.tkn_d;
+    if (c_actual == CT_REAL) return tkn.tkn_d == t.tkn.tkn_d;
 
     // VARIABLE
-    if (c_actual == 5) return tkn.tkn_s == t.tkn.tkn_s;
+    if (c_actual == VARIABLE) return tkn.tkn_s == t.tkn.tkn_s;
 
     return false;
 }

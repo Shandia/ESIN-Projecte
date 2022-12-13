@@ -1,0 +1,6 @@
+struct node {
+    node* f_esq;
+    node* f_dret;
+    token info;
+};
+node* _arrel;
