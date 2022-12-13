@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "*.rep": "cpp"
+        "*.rep": "cpp",
+        "atomic": "cpp",
+        "memory": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "system_error": "cpp"
     }
 }
