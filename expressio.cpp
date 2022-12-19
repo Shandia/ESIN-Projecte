@@ -15,7 +15,7 @@ expressio(const list<token> & l) throw(error) {
 }
 
 expressio(const expressio & e) throw(error) {
-
+    
 }
 
 expressio & operator=(const expressio & e) throw(error) {
