@@ -4,3 +4,5 @@ struct node {
     token info;
 };
 node* _arrel;
+
+static node* insert(node *n, token t);
