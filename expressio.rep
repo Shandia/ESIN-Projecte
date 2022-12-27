@@ -6,3 +6,4 @@ struct node {
 node* _arrel;
 
 static node* insert(node *n, token t);
+static bool sintaxis_correcte (const token t);
