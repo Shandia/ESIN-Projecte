@@ -49,6 +49,22 @@ node* expressio::delete_tree(node* n) {
     }
 }
 
+node* expressio::consult(node* n, token t) {
+    /*
+        Retorna un apuntador
+        NULL si k no està present en el subarbre, o bé, un apuntador
+        que apunta al node que conté la clau k.
+    */
+    if (n == nullptr or n->info == t)
+        return n;
+    else {
+        if (t < n->info)
+            return consult(n->f_esq, t);
+        else
+            return consult(n->f_dret, t);
+    }
+}
+
 bool expressio::equal_tree(node* n, node* m) {
     bool equal(true);
     if (n != nullptr) {
@@ -90,6 +106,18 @@ void expressio::variables(list<string> & l, node* n) {
             l.push_back(n->info);
         variables(l, n->f_esq);
         variables(l, n->f_dret);
+    }
+}
+
+void expressio::one_step(node* n) {
+    one_step(n->f_esq);
+    one_step(n->f_dret);
+    if ((n->info).c_actual == CT_RACIONAL) {
+        if((n->info).tkn.tkn_r.denom() == 0) {
+            token aux((n->info).tkn.tkn_r.num());
+            n->info = aux;
+            return;
+        }
     }
 }
 
@@ -147,7 +175,17 @@ void expressio::vars(list<string> & l) const throw(error) {
 }
 
 void expressio::apply_substitution(const string & v, const expressio & e) throw(error) {
-
+    token var_aux(v);
+    // Tractament error
+    try {
+        node* n;
+        n = consult(e._arrel, var_aux);
+        if (n != nullptr)
+            throw 'a';
+    } catch (...) {
+        cout << "Error: Assignació amb circularitat infinita." << endl;
+    }
+    // No acabat
 }
 
 void expressio::simplify_one_step() throw(error) {

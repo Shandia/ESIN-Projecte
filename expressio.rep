@@ -8,6 +8,8 @@ node* _arrel;
 static node* insert(node *n, token t);
 static node* copy_tree(node *n);
 static node* delete_tree(node* n);
+static node* consult(node* n, token t);
 static bool equal_tree(node* n, node* m);
 static bool sintaxis_correcte (const token t);
 static void variables(list<string> & l, node* n);
+static void one_step(node* n);
