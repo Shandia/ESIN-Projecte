@@ -49,22 +49,15 @@ node* expressio::delete_tree(node* n) {
     }
 }
 
-bool expressio::equal_tree(node *n) {
-    // no esta fet
-    if (not a.es_buit()) {
-        s.push(a.arrel());
+bool expressio::equal_tree(node* n, node* m) {
+    bool equal(true);
+    if (n != nullptr) {
+        if (n->info != m->info) 
+            equal = false;
+        else
+            equal = equal_tree(n->f_esq, m->f_esq) and equal_tree(n->f_dret, m->f_dret);
     }
-    while (not s.empty()) {
-        Abin<T>::iterador it = s.top();
-        s.pop();
-        lpre.push_back(*it);
-        if (it.fdret() != a.final()) {
-            s.push(it.fdret());
-        }
-        if (it.fesq() != a.final()) {
-            s.push(it.fesq());
-        }
-    }
+    return equal;
 }
 
 bool expressio::sintaxis_correcte (const list<token> &l) {
@@ -89,6 +82,15 @@ bool expressio::sintaxis_correcte (const list<token> &l) {
     }
     // Evaluacio parentesis (si es diferent que 0, vol dir que no tots els parentesis oberts s'han tancat, o a l'inreves)
     if (parentesis != 0) return false;
+}
+
+void expressio::variables(list<string> & l, node* n) {
+    if (n != nullptr) {
+        if ((n->info).c_actual == VARIABLE)
+            l.push_back(n->info);
+        variables(l, n->f_esq);
+        variables(l, n->f_dret);
+    }
 }
 
 // Metodes publics
@@ -133,19 +135,15 @@ operator bool() const throw() {
 }
 
 bool expressio::operator==(const expressio & e) const throw() {
-    // no esta fet
-    node* n, m;
-    n = _arrel;
-    m = e._arrel;
-    
+    return equal_tree(_arrel, e._arrel);
 }
 
 bool expressio::operator!=(const expressio & e) const throw() {
-
+    return !(*this == e);
 }
 
 void expressio::vars(list<string> & l) const throw(error) {
-
+    variables(l, _arrel);
 }
 
 void expressio::apply_substitution(const string & v, const expressio & e) throw(error) {
