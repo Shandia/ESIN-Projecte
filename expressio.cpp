@@ -17,6 +17,56 @@ node* expressio::insert(node *n, token t) {
     }
 }
 
+node* expressio::copy_tree(node *n) {
+    /* Pre: cert */
+    /* Post: si n és NULL, el resultat és NULL; sinó,
+   el resultat apunta al primer node d'un arbre binari
+   de nodes que són còpia de l'arbre apuntat per n */
+    node* m;
+    if (n == NULL) m = NULL;
+    else {
+        m = new node;
+        try {
+            m->info = n->info;
+            m->f_esq = copy_tree(n->f_esq);
+            m->f_dret = copy_tree(n->f_dret);
+        } catch(...) {
+            delete m;
+            throw;
+        }
+    }
+    return m;
+}
+
+node* expressio::delete_tree(node* n) {
+    /* Pre: cert */
+    /* Post: no fa res si m és NULL, sinó allibera
+    espai dels nodes de l'arbre binari apuntat per m */
+    if (n != nullptr) {
+        delete_tree(n->f_esq);
+        delete_tree(n->f_dret);
+        delete n;
+    }
+}
+
+bool expressio::equal_tree(node *n) {
+    // no esta fet
+    if (not a.es_buit()) {
+        s.push(a.arrel());
+    }
+    while (not s.empty()) {
+        Abin<T>::iterador it = s.top();
+        s.pop();
+        lpre.push_back(*it);
+        if (it.fdret() != a.final()) {
+            s.push(it.fdret());
+        }
+        if (it.fesq() != a.final()) {
+            s.push(it.fesq());
+        }
+    }
+}
+
 bool expressio::sintaxis_correcte (const list<token> &l) {
     list<token>::iterator it;
     int parentesis = 0;
@@ -25,7 +75,7 @@ bool expressio::sintaxis_correcte (const list<token> &l) {
         if (*it.tipus() == OBRIR_PAR) {
             // SUMA, RESTA, MULTIPLICACIO, DIVISIO, EXPONENCIACIO, CANVI_DE_SIGNE, SIGNE_POSITIU
             if ((*(it+1).tipus()) >= SUMA and (*(it+1).tipus()) <= SIGNE_POSITIU)
-            parentesis++;
+                parentesis++;
         }
         else if (*it.tipus() == TANCAR_PAR) {
             parentesis--;
@@ -61,15 +111,21 @@ expressio::expressio(const list<token> &l) throw(error) {
 }
 
 expressio::expressio(const expressio & e) throw(error) {
-    
+    _arrel = copy_tree(e._arrel);
 }
 
 expressio::expressio & operator=(const expressio & e) throw(error) {
-
+    if (this != e) {
+        node* aux;
+        aux = copy_tree(e._arrel);
+        delete_tree(_arrel);
+        _arrel = aux;
+    }
+    return (*this);
 }
 
 expressio::~expressio() throw(error) {
-
+    delete_tree(_arrel);
 }
 
 operator bool() const throw() {
@@ -77,7 +133,11 @@ operator bool() const throw() {
 }
 
 bool expressio::operator==(const expressio & e) const throw() {
-
+    // no esta fet
+    node* n, m;
+    n = _arrel;
+    m = e._arrel;
+    
 }
 
 bool expressio::operator!=(const expressio & e) const throw() {

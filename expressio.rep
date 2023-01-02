@@ -6,4 +6,7 @@ struct node {
 node* _arrel;
 
 static node* insert(node *n, token t);
+static node* copy_tree(node *n);
+static node* delete_tree(node* n);
+static bool equal_tree(node* n);
 static bool sintaxis_correcte (const token t);
