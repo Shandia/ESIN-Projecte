@@ -1,41 +1,45 @@
 #include "racional.hpp"
 
 /* 
+    Constructora
     Cost: Operacions amb costos constants més cost de la funció reduce 
     Per tant, O(1) + O(n*log n) = O(n*log n)
 */
-explicit racional::racional(int n = 0, int d = 1) throw(error)
+racional::racional(int n, int d) throw(error)
 {
     if (d == 0)
         throw(DenominadorZero);
-    else
-    {
-        _p = d < 0 ? -n: n;
-        _q = d < 0 ? -d : d;
-        reduce();
-    }
-}
-
-/* 
-    Cost: Operacions amb costos constants més cost de la funció reduce 
-    Per tant, O(1) + O(n*log n) = O(n*log n)
-*/
-racional::racional(const racional &r) throw(error)
-    : _p{r._p},
-      _q{r._q},
-{
-    if (_q == 0)
-        throw(DenominadorZero);
+    _p = d < 0 ? -n : n;
+    _q = d < 0 ? -d : d;
     reduce();
 }
 
-// Cost: Operacions amb costos constants: O(1)
+/* 
+    Constructora per còpia
+    Cost: Operacions amb costos constants més cost de la funció reduce 
+    Per tant, O(1) + O(n*log n) = O(n*log n)
+*/
+racional::racional(const racional &r) throw(error) {
+    if (_q == 0)
+        throw(DenominadorZero);
+    _p = r._p;
+    _q = r._q;
+    reduce();
+}
+
+/*
+    Constructora per assignació
+    Cost: Operacions amb costos constants: O(1)
+*/
 racional &racional::operator=(const racional &r) throw(error)
 {
     racional aux(r);
     return aux;
 }
 
+/*
+    Destructora
+*/
 racional::~racional() throw() {}
 
 // Cost: Operacions amb costos constants: O(1)
@@ -72,7 +76,7 @@ racional racional::residu() const throw()
     }
     else aux = _p - aux;
 
-    return (aux, _q);
+    return racional(aux, _q);
 }
 
 /* 
@@ -81,12 +85,18 @@ racional racional::residu() const throw()
 */ 
 racional racional::operator+(const racional &r) const throw(error)
 {
-    // (apliquem el metode papallona)
-    _p = (_p*r._q) + (_q*r_p);
-    _q = _q*r._q;
     if (r._q == 0) throw (DenominadorZero);
-    reduce();
-    return *this;
+
+    racional result(*this);
+    racional temp(r);
+
+    result = result + temp;
+    return result;
+    
+    /*int _p = (_p * r._q) + (_q * r._p);
+    int _q = _q * r._q;
+
+    return racional(_p, _q);*/
 }
 
 /* 
@@ -95,12 +105,15 @@ racional racional::operator+(const racional &r) const throw(error)
 */ 
 racional racional::operator-(const racional &r) const throw(error)
 {
-    // (apliquem el metode papallona)
-    _p = (_p*r._q) - (_q*r._p);
-    _q = _q * r._q;
     if (r._q == 0) throw (DenominadorZero);
-    reduce();
-    return *this;
+    else {
+        // (apliquem el metode papallona)
+        int _p = (_p*r._q) - (_q*r._p);
+        int _q = _q * r._q;
+
+
+        return racional(_p, _q);
+    }
 }
 
 /* 
@@ -109,11 +122,20 @@ racional racional::operator-(const racional &r) const throw(error)
 */ 
 racional racional::operator*(const racional &r) const throw(error)
 {
-    _p *= r._p;
-    _q *= r._q;
+    //_p *= r._p;
+    //_q *= r._q;
     if (r._q == 0) throw (DenominadorZero);
-    reduce();
+    //reduce();
     return *this;
+
+    if (r._q == 0) throw (DenominadorZero);
+    /*else {
+        // (apliquem el metode papallona)
+        int _p *= r._p;
+        int _q *= r._q;
+
+        return racional(_p, _q);
+    }*/
 }
 
 /* 
@@ -122,10 +144,10 @@ racional racional::operator*(const racional &r) const throw(error)
 */ 
 racional racional::operator/(const racional &r) const throw(error)
 {
-    _p *= r._q;
-    _q *= r._p;
+    //_p *= r._q;
+    //_q *= r._p;
     if (r._q == 0) throw (DenominadorZero);
-    reduce();
+    //reduce();
     return *this; 
 }
 
@@ -156,7 +178,8 @@ bool racional::operator<(const racional &r) const throw()
 // Cost: Operacions amb costos constants: O(1)
 bool racional::operator<=(const racional &r) const throw()
 {
-    if (!(this > r))
+    bool result;
+    if (!(*this > r))
         result = true;
     else
         result = false;
@@ -185,6 +208,7 @@ bool racional::operator>=(const racional &r) const throw()
         result = true;
     else
         result = false;
+    return result;
 }
 
 /* 
