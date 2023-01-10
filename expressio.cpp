@@ -141,6 +141,7 @@ expressio::expressio(const list<token> &l) throw(error) {
 }
 
 expressio::expressio(const expressio & e) throw(error) {
+    _arrel = new node;
     _arrel = copy_tree(e._arrel);
 }
 
