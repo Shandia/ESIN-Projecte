@@ -71,7 +71,7 @@ void math_io::scan(const string & s, list<token> & lt) throw(error) {
             lt.push_back(token(ASSIGNACIO));
             i++;
         }
-        // Desassignacio
+        // Desassignacio (unassign)
         else if (s[i] == 'u' and s[i+1] == 'n' and s[i+2] == 'a' and s[i+3] == 's' and s[i+4] == 's' and s[i+5] == 'i' 
                  and s[i+6] == 'g' and s[i+7] == 'n') {
             lt.push_back(token(DESASSIGNACIO));
@@ -103,23 +103,61 @@ string math_io::tostring(const list<token> & lt) {
             
         }
         // Constant real (double)
+        else if ((*it).tipus() == CT_REAL) {
+            string aux = to_string((*it).valor_real());
+            s.insert(s.end(), aux);
+        }
         // CT_E
+        else if ((*it).tipus() == CT_E) 
+            s.push_back('e');
         // Variable
+        else if ((*it).tipus() == VARIABLE)
+            s.insert(s.end(), (*it).identificador_variable());
         // Percentatge
+        else if ((*it).tipus() == VAR_PERCENTATGE)
+            s.push_back('%');
         // Suma i signe positiu
+        else if ((*it).tipus() == SUMA or (*it).tipus() == SIGNE_POSITIU)
+            s.push_back('+');
         // Resta i canvi de signe
+        else if ((*it).tipus() == RESTA or (*it).tipus() == CANVI_DE_SIGNE)
+            s.push_back('-');
         // Multiplicacio
+        else if ((*it).tipus() == MULTIPLICACIO)
+            s.push_back('*');
         // Divisio
+        else if ((*it).tipus() == DIVISIO)
+            s.push_back('/');
         // Exponenciacio
+        else if ((*it).tipus() == EXPONENCIACIO)
+            s.push_back('^');
         // Arrel quadrada
+        else if ((*it).tipus() == SQRT)
+            s.insert(s.end(), "sqrt");
         // Funcio exponencial
+        else if ((*it).tipus() == EXP)
+            s.insert(s.end(), "exp");
         // Logaritme
+        else if ((*it).tipus() == LOG)
+            s.insert(s.end(), "log");
         // Operacio evalf
+        else if ((*it).tipus() == EVALF)
+            s.insert(s.end(), "evalf");
         // Obrir parentesis
+        else if ((*it).tipus() == OBRIR_PAR)
+            s.push_back('(');
         // Tancar parentesis
+        else if ((*it).tipus() == TANCAR_PAR)
+            s.push_back(')');
         // Coma
         // Assignacio
+        else if ((*it).tipus() == ASSIGNACIO)
+            s.insert(s.end(), ":=");
         // Desassignacio
+        else if ((*it).tipus() == DESASSIGNACIO)
+            s.insert(s.end(), "unassign");
         // Byebye
+        else if ((*it).tipus() == BYEBYE)
+            s.insert(s.end(), "byebye");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     }
 }
